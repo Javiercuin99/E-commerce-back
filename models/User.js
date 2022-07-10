@@ -44,6 +44,10 @@ const userSchema = new Schema ({
             message: "Las contraseñas no hacen match"
         }
     },
+    phoneNumber:{
+        type:Number,
+        required: true["succes"]
+    },
     isAdmin:{
         type:Boolean,
         default: false
