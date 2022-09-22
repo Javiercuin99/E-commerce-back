@@ -9,7 +9,9 @@ const {resizeUserPhoto} = require('../middleware/resize');
 const router = Router();
 
 router.route('/')
-.get(isAdmin ,getUsers)
+//.get(isAdmin ,getUsers)
+.get(getUsers)
+
 .post(createUser)
 .put(protect,uploadUserPhoto,resizeUserPhoto,updateMe);
 router.route("/:id")

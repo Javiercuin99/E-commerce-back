@@ -14,20 +14,35 @@ exports.createOrder = async (req, res) => {
     }
 };
 
-//controlador para traer todas las ordes  
+//controlador para traer todas las order
+// exports.getOrder = async (req, res) => {  
+//   try {
+//     const order  = await Order.find({});
+//     return res.status(200).json({ ok: true, order  });
+//   } catch (error) {
+//     console.log(error);
+//     return res.status(500).json({ message: "Algo salio mal" });
+//   }
+// };
+
 exports.getOrder = async (req, res) => {  
   try {
-    const order  = await Order.find({});
-    return res.status(200).json({ ok: true, order  });
+    let orders = [];
+    console.log("estamos aca", req.body.userId)
+        req.query.userId ? 
+         orders = await Order.find({user : req.body.userId})
+         :
+         orders = await Order.find({});
+         return res.status(200).json({ ok: true, orders  });
   } catch (error) {
     console.log(error);
     return res.status(500).json({ message: "Algo salio mal" });
   }
 };
 
+
 //controlador para traer una Order por id
 exports.getOrderById = async (req, res) => {
-    const {id} = req.params
     try {
         const orderById = await Order.findById(id)
         return res.status(200).json({ok:true, orderById  })
@@ -36,6 +51,23 @@ exports.getOrderById = async (req, res) => {
         res.status(500).json( {message: 'El servidor ha fallado'} )
     }
 }
+
+
+exports.getOrderId = async (req,res) =>{
+    try{
+        let order = [];
+        req.query.orderId ? 
+         order = await Order.find({order : req.query.orderId})
+         :
+         order = await Order.findOne({});
+         return res.status(200).json({ ok: true, order  });
+
+    }   
+    catch (error) {
+        res.status(500).json( {message: 'El servidor  fallado'} )
+    }
+}
+
 
 //controlador para actualizar Order
 exports.updateOrder = async (req, res) => {

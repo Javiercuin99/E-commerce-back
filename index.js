@@ -7,12 +7,13 @@ const userRoutes = require('./routes/userRoutes')
 const productRoutes = require ('./routes/ProductRoutes')
 //rutas de autorizaciones
 const authRoutes = require ('./routes/authRoutes')
+const orderRoutes = require('./routes/orderRoutes')
 const bodyParser = require('body-parser');
 connectDb(); 
 dotenv.config();
 const cors = require ('cors');
 const app = express();
-const mercadopago = require ('mercadopago');
+
 
 //archivos estaticos 
 app.use(express.static(`${__dirname}/public`));
@@ -22,7 +23,7 @@ app.use(express.json({limit:'10kb'}));
 app.use(cors());
 app.use(express.json({limit:'10kb'}));
 app.use('/api/v1/users', userRoutes);
-
+app.use('/api/v1/order',orderRoutes);
 app.use('/api/v1/auth',authRoutes );
 app.use('/api/v1/products',productRoutes);
 app.use(bodyParser.urlencoded({ extended: false }))
@@ -32,7 +33,24 @@ app.use(bodyParser.urlencoded({ extended: false }))
 // app.use('/api/v1/purchases',);
 
 
+app.use('/', (req, res ) => res.send('home '));
+console.log(process.env.PORT);
+const port = process.env.PORT || 4000;
+app.listen(port, () =>{
+    console.log(`servidor corriendo ${port}`);
+})
 
+
+
+
+
+
+// SDK de Mercado Pago
+const mercadopago = require ('mercadopago');
+
+//middleware
+
+app.use(bodyParser.urlencoded({ extended: false }))
 
 // Agrega credenciales
 mercadopago.configure({
@@ -66,10 +84,8 @@ let preference = {
 
 
 
+server
 
-app.use('/', (req, res ) => res.send('home '));
-console.log(process.env.PORT);
-const port = process.env.PORT || 4000;
-app.listen(port, () =>{
-    console.log(`servidor corriendo ${port}`);
-})
+app.listen(3000, () => {
+    console.log("Server on port 3000");
+});

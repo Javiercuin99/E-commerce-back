@@ -46,13 +46,14 @@ exports.login = async (req, res) => {
         if (!user || !(await user.comparePassword(password, user.password)))
         return res.status(401).json({ok:false, msg:"Credenciales incorrectas"})
 
+        const {name , role, _id ,email: userMail }= user;
         // si todo esta bien enviamos el token al usuario
         const token = signToken(user. _id);
         return res.status(200).json({
             ok:true,
             token,
             data: {
-                user
+                user : {name , role, _id ,email: userMail }
             }
         })
     } catch (error) {

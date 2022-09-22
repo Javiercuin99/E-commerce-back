@@ -9,13 +9,13 @@ const {resizeProductsPhotos } = require ("../middleware/resize")
 
 router.route('/')
 .get(protect, getProducts) //sin isAdmin debido a que qwueremos que los usuarios deben ver los productos
-.post(protect,retristecTo('admin'),uploadProductImages,resizeProductsPhotos,createProduct);
+.post(protect,retristecTo('admin'),createProduct);
 //middleware van antes de hacer uso de los controladores, por ejemplo = .post(middlewareProductVlidation, createProduct)
 
 router.route('/:id')
 .put (updateProduct)
 .get(getProductsById)
-.delete(protect, retristecTo('sales', 'admin'), deleteProduct)//solo los usuarios admin puedan borrar productos
+.delete(protect, retristecTo('sales', 'admim'), deleteProduct)//solo los usuarios admin puedan borrar productos
 
 module.exports = router;
 
